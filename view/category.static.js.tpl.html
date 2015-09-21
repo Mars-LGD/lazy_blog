@@ -1,0 +1,4 @@
+<?php
+foreach($category_list as $category){
+    echo '$("#category_menu").append(\'<li><a href="../category/'.$category['id'].'.html">'.$category['name'].'</a></li>\');';
+}

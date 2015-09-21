@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Lazy Blog - Post</title>
+
+    <link rel="icon" href="../static/img/favicon.ico" type="image/x-icon">
+
+    <!-- core CSS -->
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/styles/shCore.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/styles/shThemeDefault.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.useso.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.useso.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href="../static/css/clean-blog.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="../view/index.html">Lazy Blog</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a class="menu" href="../view/index.html">Home</a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Category<span class="caret"></span></a>
+                        <ul id="category_menu" class="dropdown-menu"></ul>
+                    </li> 
+                    <li>
+                    <a class="menu" href="../view/about.html">About</a>
+                    </li>
+                    <li>
+                    <a class="menu" href="../view/contact.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Header -->
+    <header class="intro-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                    <div id="category_menu" class="post-heading">
+                        <h1><?=$title?></h1>
+                        <h2 class="subheading"><?=$abstract?></h2>
+                        <span class="meta">Posted by xiaotian15 on <?=$ctime?></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Post Content -->
+    <article>
+        <div class="container">
+            <div class="row">
+            	<div class="col-md-3">
+					<div class="well bs-sidebar hidden-print affix-top" id="table-content"></div>
+				</div>
+                <div class="col-md-9">
+                    <?=$content?>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                        <li>
+                            <a href="#">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <p class="copyright text-muted">Copyright &copy; Your Website 2014</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shCore.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shAutoloader.min.js"></script>
+    
+    <!-- Custom Theme JavaScript -->
+    <script src="../category/category.js"></script>
+    <script src="../static/js/clean-blog.min.js"></script>
+    <script type="text/javascript" src="../static/js/toc.min.js"></script>
+    <script type="text/javascript">
+        function path(){
+            var args = arguments,
+                result = []
+                    ;
+
+            for(var i = 0; i < args.length; i++)
+                result.push(args[i].replace('@', 'https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/'));
+
+            return result
+        };
+		SyntaxHighlighter.autoloader.apply(null, path(
+            'applescript            @shBrushAppleScript.js',
+            'actionscript3 as3      @shBrushAS3.js',
+            'bash shell             @shBrushBash.js',
+            'coldfusion cf          @shBrushColdFusion.js',
+            'cpp c                  @shBrushCpp.js',
+            'c# c-sharp csharp      @shBrushCSharp.js',
+            'css                    @shBrushCss.js',
+            'delphi pascal          @shBrushDelphi.js',
+            'diff patch pas         @shBrushDiff.js',
+            'erl erlang             @shBrushErlang.js',
+            'groovy                 @shBrushGroovy.js',
+            'java                   @shBrushJava.js',
+            'jfx javafx             @shBrushJavaFX.js',
+            'js jscript javascript  @shBrushJScript.js',
+            'perl pl                @shBrushPerl.js',
+            'php                    @shBrushPhp.js',
+            'text plain             @shBrushPlain.js',
+            'py python              @shBrushPython.js',
+            'ruby rails ror rb      @shBrushRuby.js',
+            'sass scss              @shBrushSass.js',
+            'scala                  @shBrushScala.js',
+            'sql                    @shBrushSql.js',
+            'vb vbnet               @shBrushVb.js',
+            'xml xhtml xslt html    @shBrushXml.js'
+            ));
+        SyntaxHighlighter.all();
+        $("article img").addClass("img-responsive img-rounded");
+		$('#table-content').toc({
+			'selectors': 'h1,h2,h3',
+			'container': 'article',
+            'smoothScrolling': true,
+            'highlightOnScroll': true,
+		});
+		var fixed = false;
+		$(window).scroll(function(){
+			var scrollTop = $(this).scrollTop();
+			var scrollHeight = $("header").height();
+			if(scrollTop>scrollHeight){
+				if(!fixed){
+					$("#table-content").removeClass("affix-top");
+					$("#table-content").addClass("affix");
+				}
+				fixed = true;
+			}else{
+				if(fixed){
+					$("#table-content").removeClass("affix");
+					$("#table-content").addClass("affix-top");
+				}
+				fixed = false;
+			}
+		});
+    </script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+        <meta name="description" content="dashboard界面">
+        <meta name="author" content="xiaotian15">
+
+        <title>Lazy Blog</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.min.css" rel="stylesheet">
+
+    </head>
+
+    <body>
+        <div style="margin-top:10px;">
+            <form action="article_operate.php" method="post">
+                <div class="row" style="margin:0px">
+                    <div class="col-md-7">
+                        <input type="text" name="title" class="form-control" style="background-color:transparent;height:60px;padding:10px 20px;font-size:24px;border:none;box-shadow:none;color:#49494C;font-weight:800" placeholder="文章标题" required value="<?= isset($article)?$article['title']:''?>">
+                    </div>
+
+                    <div class="col-md-5 form-inline" style="padding:5px;text-align:center">
+                        <select class="form-control" name="type" style="height:40px;font-size:16px">
+                            <option value="1" <?= isset($article)&&$article['type']==1?'selected="selected"':''?>>原创</option>
+                            <option value="2" <?= isset($article)&&$article['type']==2?'selected="selected"':''?>>转载</option>
+                            <option value="3" <?= isset($article)&&$article['type']==3?'selected="selected"':''?>>翻译</option>
+                        </select>
+                        &nbsp;&nbsp;&nbsp;
+                        <select class="form-control" name="cid" style="height:40px;font-size:16px">
+                            <?php 
+                                if(isset($category_data)){
+                                    foreach($category_data as $row){
+                                    $str='<option value="'.$row['id'].'"';
+                                    if(isset($article)&&$article['cid']==$row['id']){
+                                        $str.=' selected="selected"';
+                                    }
+                                    $str.='>'.$row['name'].'</option>';   
+                                    echo $str;
+                                    }
+                                }
+                            ?>
+                        </select>
+                        &nbsp;&nbsp;&nbsp;
+                        <button type="submit" id="article_draft_button" style="border-radius:2px;" class="btn btn-primary btn-lg">存为草稿</button>
+                        &nbsp;&nbsp;&nbsp;
+                        <button type="submit" id="article_publish_button" style="border-radius:2px;" class="btn btn-danger btn-lg">发表博客</button>
+                    </div>
+                </div>
+                <div style="margin:15px">
+                    <input type="text" name="abstract" class="form-control" style="height:50px;padding:10px 20px;font-size:20px;color:#49494C;font-weight:600" placeholder="文章摘要" required value="<?= isset($article)?$article['abstract']:''?>">
+                </div>
+                <textarea name="content"><?= isset($article)?$article['content']:''?></textarea>
+                <input type="hidden" name="method" id="article_post_method"/>
+                <?php
+                    if(isset($article)){
+                        echo '<input name="id" type="hidden" value="'.$article['id'].'" />';
+                    }
+                ?>
+            </form>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.2.5/tinymce.min.js"></script>
+        <script>
+            tinymce.PluginManager.load('sh4tinymce', '../../static/sh4tinymce/plugin.min.js');
+            tinymce.PluginManager.load('responsivefilemanager', '../../static/responsivefilemanager/plugin.min.js');
+            tinymce.PluginManager.load('filemanager', '../../filemanager/plugin.min.js');
+
+            tinymce.init({
+                selector: "textarea",theme: "modern",height: 600,
+                menubar : false,
+                plugins: [
+                "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                "searchreplace wordcount visualblocks visualchars code fullscreen",
+                "insertdatetime nonbreaking save table contextmenu directionality",
+                "emoticons template paste textcolor colorpicker textpattern imagetools sh4tinymce filemanager responsivefilemanager"
+                ],
+                image_advtab: true ,
+                external_filemanager_path:"../filemanager/" ,
+                filemanager_title:"Responsive Filemanager" ,
+                toolbar: "responsivefilemanager undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image print preview | forecolor backcolor emoticons blockquote sh4tinymce hr",
+                content_css: "../static/css/mce-custom.css",
+                setup: function(ed) {
+                    ed.addShortcut("ctrl+1", "Heading 1", function(){
+                        ed.execCommand('mceToggleFormat', false, 'h1');
+                    });
+                    ed.addShortcut("ctrl+2", "Heading 2", function(){
+                        ed.execCommand('mceToggleFormat', false, 'h2');
+                    });
+                    ed.addShortcut("ctrl+3", "Heading 3", function(){
+                        ed.execCommand('mceToggleFormat', false, 'h3');
+                    });
+                    ed.addShortcut("ctrl+4", "Heading 4", function(){
+                        ed.execCommand('mceToggleFormat', false, 'h4');
+                    });
+                    ed.addShortcut("ctrl+5", "Heading 5", function(){
+                        ed.execCommand('mceToggleFormat', false, 'h5');
+                    });
+                    ed.addShortcut("ctrl+6", "Heading 6", function(){
+                        ed.execCommand('mceToggleFormat', false, 'h6');
+                    });
+                    ed.addShortcut("ctrl+0", "paragraph", function(){
+                        ed.execCommand('mceToggleFormat', false, 'p');
+                    });
+                    ed.addShortcut("alt+1", "blockquote", function(){
+                        ed.execCommand('mceToggleFormat', false, 'blockquote');
+                    });
+                    ed.addShortcut("alt+2", "hr", function(){
+                        ed.execCommand("mceInsertContent", !1, "<hr/>");
+                    });
+                }
+            });     
+             
+            $(document).ready(function() {
+                var showConfirm = true;
+
+                $('#article_draft_button').click(function(){
+                    showConfirm = false;
+                    $('#article_post_method').attr('value','draft');    
+                });
+
+                $('#article_publish_button').click(function(){
+                    showConfirm = false;
+                    $('#article_post_method').attr('value','publish');    
+                });
+
+                window.onbeforeunload = function () {
+                    if (showConfirm) {
+                        try { return "您的文章尚未保存！"; } catch (err) { }
+                    }
+                };
+            });
+
+        </script>
+    </body>
+</html>

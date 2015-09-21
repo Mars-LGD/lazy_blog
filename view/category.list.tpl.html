@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+        <meta name="description" content="dashboard界面">
+        <meta name="author" content="xiaotian15">
+
+        <title>Lazy Blog</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom styles for this template -->
+        <link href="../static/css/dashboard.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="../view/index.html" class="navbar-brand">Lazy Blog</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="category_list.php">类别管理</a></li>
+                    <li><a href="article_list.php?status=1">文章管理</a></li>
+                    <li><a href="article_list.php?status=0">草稿箱</a></li>
+                    <li><a href="article_list.php?status=-1">回收站</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+        </nav>
+
+        <div class="container">
+
+            <div style="vertical-align:middle">
+                <h3 class="pull-left">Category Management</h3>
+                <button type="button" style="margin-top:15px" class="btn btn-primary pull-right" data-toggle="modal" data-target="#category_edit_modal"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Add</button>
+            </div>
+            <div class="clearfix"></div>
+            <div style="margin-top:20px">
+                <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th class="center">Id</th>
+                            <th class="center">Name</th>
+                            <th class="center">Description</th>
+                            <th class="center">Ctime</th>
+                            <th class="center">Utime</th>
+                            <th class="center">Operate</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <?php
+                            if($result){
+                                foreach($result as $row){
+                                    echo '<tr>';
+                                    echo '<td class="center">'.$row['id'].'</td>';
+                                    echo '<td>'.$row['name'].'</td>';
+                                    echo '<td>'.$row['description'].'</td>';
+                                    echo '<td class="center">'.$row['ctime'].'</td>';
+                                    echo '<td class="center">'.$row['utime'].'</td>';
+                                    echo '<td class="center"><button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#category_edit_modal" data-id="'.$row['id'].'" data-name="'.$row['name'].'" data-description="'.$row['description'].'"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>&nbsp;&nbsp;&nbsp;';
+                                    echo '<button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#category_delete_modal" data-id="'.$row['id'].'"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></td>';
+                                    echo '</tr>';
+                                }
+                            }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+            <!-- 编辑弹出层 -->
+            <div class="modal fade" id="category_edit_modal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <form action="category_operate.php" method="post">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Add Category</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="control-label">Category Name</label>
+                                    <input id="category_edit_name" type="text" class="form-control" name="name" required autofocus>
+                                </div>
+                                <div class="form-group">
+                                    <label for="message-text" class="control-label">Description</label>
+                                    <textarea id="category_edit_description" class="form-control" name="description" required></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <input id="category_edit_method" type="hidden" name="method"/>
+                                <input id="category_edit_id" type="hidden" name="id"/>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" id="add_tag_submit">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- 删除弹出层 -->
+            <div class="modal fade" id="category_delete_modal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="category_operate.php" method="post">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">类别删除后不可恢复，你确定要删除当前类别吗?</h4>
+                            </div>
+                            <div class="modal-footer">
+                                <input id="category_delete_id" type="hidden" name="id" value=""/>
+                                <input type="hidden" name="method" value="delete"/>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">OK</button>
+                            </div>
+                        </form>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal --> 
+
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+            <script src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.datatables.net/1.10.9/js/dataTables.bootstrap.min.js"></script>
+            <script>
+                $(document).ready(function() {
+                    $('#example').DataTable();
+
+                    $('#category_edit_modal').on('show.bs.modal', function (event) {
+                        var button = $(event.relatedTarget);
+                        var name = button.data('name');
+                        if(!name)name="";
+                        var description = button.data('description');
+                        if(!description)description="";
+                        var modal = $(this);
+                        var id = button.data('id');
+                        if(!id){
+                            modal.find('.modal-footer #category_edit_method').val('add');
+                        }else{
+                            modal.find('.modal-footer #category_edit_id').val(id);
+                            modal.find('.modal-footer #category_edit_method').val('update');
+                        }
+                        modal.find('.modal-body #category_edit_name').val(name);
+                        modal.find('.modal-body #category_edit_description').val(description);
+                    });
+
+                    $('#category_delete_modal').on('show.bs.modal', function (event) {
+                        var button = $(event.relatedTarget);
+                        var id = button.data('id');
+                        var modal = $(this);
+                        if(id){
+                            modal.find('.modal-footer #category_delete_id').val(id);
+                        }
+                    });
+                });
+            </script>
+
+        </body>
+    </html>

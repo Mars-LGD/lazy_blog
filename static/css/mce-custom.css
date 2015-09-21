@@ -1,0 +1,12 @@
+body{
+    font-size:14px;
+}
+
+pre{
+    color: #333333;
+    background-color: #F2F6F7;
+    border: 1px solid #d3dbea;
+    border-style: dashed;
+    border-radius: 5px;
+    padding:5px;
+}
