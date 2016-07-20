@@ -68,7 +68,7 @@
                                 foreach($result as $row){
                                     echo '<tr>';
                                     echo '<td class="center">'.$row['id'].'</td>';
-                                    echo '<td>'.$row['title'].'</td>';
+                                    echo '<td><a href="../article/'.$row[id].'.html">'.$row['title'].'</a></td>';
                                     echo '<td class="center">'.$row['ctime'].'</td>';
                                     echo '<td class="center">'.$row['utime'].'</td>';
                                     echo '<td class="center"><button class="btn btn-primary btn-xs article_edit_button" data-id="'.$row['id'].'"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>&nbsp;&nbsp;&nbsp;';

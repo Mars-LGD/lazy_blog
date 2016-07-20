@@ -78,15 +78,14 @@
             </div>
         </div>
     </header>
-
     <!-- Post Content -->
     <article>
         <div class="container">
             <div class="row">
-            	<div class="col-md-3">
+            	<div class="col-md-3" id="directory" >
 					<div class="well bs-sidebar hidden-print affix-top" id="table-content"></div>
 				</div>
-                <div class="col-md-9">
+                <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" id="content">
                     <?=$content?>
                 </div>
             </div>
@@ -180,30 +179,39 @@
             ));
         SyntaxHighlighter.all();
         $("article img").addClass("img-responsive img-rounded");
-		$('#table-content').toc({
-			'selectors': 'h1,h2,h3',
-			'container': 'article',
-            'smoothScrolling': true,
-            'highlightOnScroll': true,
-		});
-		var fixed = false;
-		$(window).scroll(function(){
-			var scrollTop = $(this).scrollTop();
-			var scrollHeight = $("header").height();
-			if(scrollTop>scrollHeight){
-				if(!fixed){
-					$("#table-content").removeClass("affix-top");
-					$("#table-content").addClass("affix");
-				}
-				fixed = true;
-			}else{
-				if(fixed){
-					$("#table-content").removeClass("affix");
-					$("#table-content").addClass("affix-top");
-				}
-				fixed = false;
-			}
-		});
+        var h1N=$("article h1").length;
+        var h2N=$("article h2").length;
+        var h3N=$("article h3").length;
+        if(h1N>0 || h2N>0 || h3N>0){
+            $('#content').removeClass();
+            $('#content').addClass('col-md-9');
+            $('#table-content').toc({
+                'selectors': 'h1,h2,h3',
+                'container': 'article',
+                'smoothScrolling': true,
+                'highlightOnScroll': true,
+            });
+            var fixed = false;
+            $(window).scroll(function(){
+                var scrollTop = $(this).scrollTop();
+                var scrollHeight = $("header").height();
+                if(scrollTop>scrollHeight){
+                    if(!fixed){
+                        $("#table-content").removeClass("affix-top");
+                        $("#table-content").addClass("affix");
+                    }
+                    fixed = true;
+                }else{
+                    if(fixed){
+                        $("#table-content").removeClass("affix");
+                        $("#table-content").addClass("affix-top");
+                    }
+                    fixed = false;
+                }
+            });
+        }else{
+            $('#directory').hide();
+        }
     </script>
 </body>
 </html>
